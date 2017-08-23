@@ -69,6 +69,7 @@ var searchSpotify = () => {
 	});
 }
 
+//Search OMDB
 var omdbSearch = () => {
 	var movie = input.split(" ").join("+") || "Mr.+Nobody"
 	request('http://www.omdbapi.com/?apikey=40e9cece&t='+movie, function (error, response, body) {
@@ -102,33 +103,47 @@ var omdbSearch = () => {
 }
 
 
-//Search OMDB
 
+//Read file and do what it says
+function dowhatItSays () {
+	fs.readFile("random.txt", "utf8", (err, data) => {
+		var dataArr = data.split(" ")
+		command = dataArr[0];
+		input = dataArr[1]
+		doStuff();
+	})
+
+
+}
 
 
 
 // Do something with input
 
+function doStuff () {
+	switch(command) {
+		case "my-tweets":
+			getMyTweets();
+		break;
 
-switch(command) {
-	case "my-tweets":
-		getMyTweets();
-	break;
+		case "spotify-this-song":
+			searchSpotify();
+		break;
 
-	case "spotify-this-song":
-		searchSpotify();
-	break;
+		case "movie-this":
+		omdbSearch();
+		break;
 
-	case "movie-this":
-	omdbSearch();
-	break;
+		case "do-what-it-says":
+		dowhatItSays();
+		break;
 
-	case "do-what-it-says":
-	break;
-
-	default:
-	console.log("Invalid Input");
+		default:
+		console.log("Invalid Input");
+	}
 }
+
+doStuff();
 
 
 
